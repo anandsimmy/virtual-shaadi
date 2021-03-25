@@ -6,7 +6,7 @@ const myPeer= new Peer(undefined, {
 })
 
 myPeer.on('open', id => {
-    socket.emit('join-room', ROOM_ID, 7)
+    socket.emit('join-room', ROOM_ID, id)
 })
 
 
