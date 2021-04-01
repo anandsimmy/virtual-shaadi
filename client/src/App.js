@@ -9,7 +9,7 @@ import Peer from 'simple-peer'
 import io from 'socket.io-client'
 import './App.css';
 
-const socket= io.connect('http://localhst:3000')
+const socket= io.connect('http://localhst:5000')
 
 const App= () => {
 
