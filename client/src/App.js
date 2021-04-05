@@ -17,6 +17,7 @@ const App= () => {
   const [stream, setStream]= useState('')
   const [caller, setCaller]= useState('')
   const [receivingCall, setReceivingCall]= useState('')
+  const [callAccepted, setCallAccepted]= useState('')
   const [name, setName]= useState('')
   const [callerSignal, setCallerSignal]= useState('')
 
@@ -56,8 +57,21 @@ const App= () => {
         signalData: data,
         from: me,
         name: name
-      }
+      })
     })
+
+    peer.on('stream', (stream) => {
+      userVideo.current.srcObject= stream
+    })
+
+
+    socket.on('callAccepted', (signal) => {
+      setCallAccepted(true)
+      peer.signal(signal)
+    })
+
+    connectionRef.current= peer
+
   }
 
   return (
