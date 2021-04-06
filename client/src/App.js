@@ -74,6 +74,15 @@ const App= () => {
 
   }
 
+  const answerCall= () => {
+    setCallAccepted(true)
+    const peer= new Peer({
+      initiator: true,
+      trickle: false,
+      stream: stream
+    })
+  }
+
   return (
     <div className="App">
      
