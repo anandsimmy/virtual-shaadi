@@ -77,10 +77,15 @@ const App= () => {
   const answerCall= () => {
     setCallAccepted(true)
     const peer= new Peer({
-      initiator: true,
+      initiator: false,
       trickle: false,
       stream: stream
     })
+
+    peer.on('signal', (data) => {
+      socket.emit('answerCall', { signal: data, to: caller })
+    })
+
   }
 
   return (
