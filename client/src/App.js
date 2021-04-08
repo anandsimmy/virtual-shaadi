@@ -82,9 +82,9 @@ const App= () => {
       stream: stream
     })
 
-    peer.on('signal', (data) => {
-      socket.emit('answerCall', { signal: data, to: caller })
-    })
+    // peer.on('signal', (data) => {
+    //   socket.emit('answerCall', { signal: data, to: caller })
+    // })
 
   }
 
