@@ -90,10 +90,14 @@ const App= () => {
       userVideo.current.srcObject=stream
     })
 
-    // peer.signal(callerSignal)
-    // connectionRef.current= peer
+    peer.signal(callerSignal)
+    connectionRef.current= peer
 
   }
+
+  // const leaveCall= () => {
+
+  // }
 
   return (
     <div className="App">
