@@ -2,23 +2,25 @@ import React, { useState, useEffect, useRef } from 'react'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import TextField from '@material-ui/core/TextField'
-import AssignmentIcon from '@material-ui/core/Assignment'
-import PhoneIcon from '@material-ui/core/Phone'
+import AssignmentIcon from '@material-ui/icons/Assignment'
+import PhoneIcon from '@material-ui/icons/Phone'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import Peer from 'simple-peer'
 import io from 'socket.io-client'
 import './App.css';
 
-const socket= io.connect('http://localhst:5000')
+const socket= io.connect('http://localhost:5000')
 
 const App= () => {
 
   const [me, setMe]= useState('')
+  const [name, setName]= useState('')
+  const [idToCall, setIdToCall]= useState('')
   const [stream, setStream]= useState('')
   const [caller, setCaller]= useState('')
-  const [receivingCall, setReceivingCall]= useState('')
+  const [callEnded, setCallEnded]= useState('')
   const [callAccepted, setCallAccepted]= useState('')
-  const [name, setName]= useState('')
+  const [receivingCall, setReceivingCall]= useState('')
   const [callerSignal, setCallerSignal]= useState('')
 
   const myVideo= useRef()
@@ -95,13 +97,54 @@ const App= () => {
 
   }
 
-  // const leaveCall= () => {
-
-  // }
+  const leaveCall= () => {
+    setCallEnded(true)
+    connectionRef.current.destroy()
+  }
 
   return (
     <div className="App">
-     
+      <div className="video-container">
+        <div className="video">
+          {
+            stream && <video playsInline muted ref={myVideo} autoPlay style={{ width: '300px' }} />
+          }
+        </div>
+        <div className="video">
+          {
+            (callAccepted && !callEnded) && <video playsInline muted ref={userVideo} autoPlay style={{ width: '300px' }} />
+          }
+        </div>
+      </div>
+      
+      <div className="my-id">
+        <TextField id="filled-basic" label="Name" variant="filled" value={name}
+          onChange={e => setName(e.target.value)} style={{marginBottom: "2rem"}} />
+        <CopyToClipboard text={me} style={{marginBottom: "2rem"}} >
+          <Button variant="contained" color="primary" startIcon={<AssignmentIcon fontSize="large" />}>
+            Copy ID
+          </Button>
+        </CopyToClipboard>
+        <TextField id="filled-basic" label="ID to call" variant="filled" value={idToCall}
+          onChange={e => setIdToCall(e.target.value)} style={{marginBottom: "2rem"}} />
+      </div>
+      
+      <div className="call-button">
+        {
+          callAccepted && !callEnded ? (
+            <Button variant="contained" color="secondary" onClick={leaveCall}>
+              End call
+            </Button>
+          ) : (
+            <IconButton color="primary" onClick={() => callUser(idToCall)}>
+              <PhoneIcon fontSize="large" />
+            </IconButton>
+          )
+        }
+        {idToCall}
+      </div>
+      
+      
     </div>
   );
 }
