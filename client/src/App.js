@@ -150,7 +150,7 @@ const App= () => {
             <>
               <h1>{name} is calling...</h1>
               <Button variant="contained" color="primary" onClick={answerCall}>
-                Answer
+                Answer call
               </Button>
             </>
           )
